@@ -128,4 +128,13 @@ export class IqCalendarComponent implements OnInit {
         }
     }
 
+    getMonths(): string[] {
+        return this.translations.monthNames;
+    }
+
+    selectMonth(index: number) {
+        this.date.setMonth(index);
+        this.updateViewDays();
+    }
+
 }

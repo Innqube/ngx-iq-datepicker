@@ -1,19 +1,24 @@
 <div class="row">
     <div class="col-sm-4">
-        <div class="row">
-            <div class="col-sm-2">
+
+        <div class="input-group">
+            <span class="input-group-btn">
                 <button class="btn btn-default" (click)="prevMonth()">
                     <i class="glyphicon glyphicon-chevron-left"></i>
                 </button>
-            </div>
-            <div class="col-sm-8 text-center">
-                {{ getMonthName() }}
-            </div>
-            <div class="col-sm-2">
+            </span>
+            <select class="form-control" (change)="selectMonth($event.target.value)">
+                <option *ngFor="let month of getMonths()"
+                        [value]="getMonths().indexOf(month)"
+                        [selected]="month === getMonths()[this.date.getMonth()]">
+                    {{month}}
+                </option>
+            </select>
+            <span class="input-group-btn">
                 <button class="btn btn-default" (click)="nextMonth()">
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
-            </div>
+            </span>
         </div>
     </div>
 

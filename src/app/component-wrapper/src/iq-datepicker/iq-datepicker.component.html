@@ -1,0 +1,21 @@
+<div class="input-group">
+    <input class="form-control"
+           [class.input-lg]="options.size === 'lg'"
+           [class.input-sm]="options.size === 'sm'"
+           type="text">
+    <span class="input-group-btn">
+        <button [class]="options.removeBtnClass"
+                [class.btn-lg]="options.size === 'lg'"
+                [class.btn-sm]="options.size === 'sm'"
+                *ngIf="options.removeBtnVisible"
+                type="button">
+            <i class="glyphicon  glyphicon-remove"></i>
+        </button>
+        <button [class]="options.calendarBtnClass"
+                [class.btn-lg]="options.size === 'lg'"
+                [class.btn-sm]="options.size === 'sm'"
+                type="button">
+            <i class="glyphicon  glyphicon-calendar"></i>
+        </button>
+      </span>
+</div>

@@ -3,6 +3,7 @@
  */
 export interface IqDatepickerTranslations {
 
+    daysAbrev: string[];
     monthNames: string[];
 
 }

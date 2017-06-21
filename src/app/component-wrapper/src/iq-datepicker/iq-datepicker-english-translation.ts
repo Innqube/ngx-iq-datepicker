@@ -4,6 +4,15 @@ import {IqDatepickerTranslations} from './iq-datepicker-translations';
  */
 export class IqDatepickerEnglishTranslation implements IqDatepickerTranslations {
 
+    daysAbrev = [
+        'S',
+        'M',
+        'T',
+        'W',
+        'T',
+        'F',
+        'S'
+    ];
     monthNames = [
         'January',
         'February',

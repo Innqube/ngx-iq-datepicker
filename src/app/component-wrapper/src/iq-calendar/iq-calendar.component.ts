@@ -19,14 +19,6 @@ export class IqCalendarComponent implements OnInit {
         this.updateViewDays();
     }
 
-    getMonthName(): string {
-        return this.translations.monthNames[this.date.getMonth()];
-    }
-
-    getYear(): number {
-        return this.date.getFullYear();
-    }
-
     prevMonth() {
         const currentMonth = this.date.getMonth();
 
@@ -135,6 +127,15 @@ export class IqCalendarComponent implements OnInit {
     selectMonth(index: number) {
         this.date.setMonth(index);
         this.updateViewDays();
+    }
+
+    setYear(year: number) {
+        if (!isNaN(year) && year >= 1970 && year <= 9999) {
+            this.date.setFullYear(year);
+            this.updateViewDays();
+        } else {
+            this.date.setFullYear(new Date().getFullYear())
+        }
     }
 
 }

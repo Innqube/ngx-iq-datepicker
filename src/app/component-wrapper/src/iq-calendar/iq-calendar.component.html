@@ -1,13 +1,12 @@
 <div class="row">
     <div class="col-sm-4">
-
         <div class="input-group">
             <span class="input-group-btn">
-                <button class="btn btn-default" (click)="prevMonth()">
+                <button type="button" class="btn btn-sm btn-default" (click)="prevMonth()">
                     <i class="glyphicon glyphicon-chevron-left"></i>
                 </button>
             </span>
-            <select class="form-control" (change)="selectMonth($event.target.value)">
+            <select class="form-control input-sm" (change)="selectMonth($event.target.value)">
                 <option *ngFor="let month of getMonths()"
                         [value]="getMonths().indexOf(month)"
                         [selected]="month === getMonths()[this.date.getMonth()]">
@@ -15,7 +14,7 @@
                 </option>
             </select>
             <span class="input-group-btn">
-                <button class="btn btn-default" (click)="nextMonth()">
+                <button type="button" class="btn btn-sm btn-default" (click)="nextMonth()">
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
             </span>
@@ -25,20 +24,19 @@
     <div class="col-sm-4"></div>
 
     <div class="col-sm-4">
-        <div class="row text-right">
-            <div class="col-sm-2">
-                <button class="btn btn-default" (click)="prevYear()">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-sm btn-default" (click)="prevYear()">
                     <i class="glyphicon glyphicon-chevron-left"></i>
                 </button>
-            </div>
-            <div class="col-sm-8 text-center">
-                {{ getYear() }}
-            </div>
-            <div class="col-sm-2">
-                <button class="btn btn-default" (click)="nextYear()">
+            </span>
+            <input class="form-control input-sm text-center" type="text" [value]="date.getFullYear()"
+                   (blur)="setYear($event.target.value)">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-sm btn-default" (click)="nextYear()">
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
-            </div>
+            </span>
         </div>
     </div>
 </div>
@@ -47,13 +45,13 @@
     <div class="col-sm-12">
         <table class="table iq-calendar">
             <thead>
-            <th class="text-center">S</th>
-            <th class="text-center">M</th>
-            <th class="text-center">T</th>
-            <th class="text-center">W</th>
-            <th class="text-center">T</th>
-            <th class="text-center">F</th>
-            <th class="text-center">S</th>
+            <th class="text-center">{{translations.daysAbrev[0]}}</th>
+            <th class="text-center">{{translations.daysAbrev[1]}}</th>
+            <th class="text-center">{{translations.daysAbrev[2]}}</th>
+            <th class="text-center">{{translations.daysAbrev[3]}}</th>
+            <th class="text-center">{{translations.daysAbrev[4]}}</th>
+            <th class="text-center">{{translations.daysAbrev[5]}}</th>
+            <th class="text-center">{{translations.daysAbrev[6]}}</th>
             </thead>
             <tbody>
             <tr *ngFor="let week of weeks">

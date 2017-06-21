@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-sm-4">
+        <div class="row">
+            <div class="col-sm-2">
+                <button class="btn btn-default" (click)="prevMonth()">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                </button>
+            </div>
+            <div class="col-sm-8 text-center">
+                {{ getMonthName() }}
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-default" (click)="nextMonth()">
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4"></div>
+
+    <div class="col-sm-4">
+        <div class="row text-right">
+            <div class="col-sm-2">
+                <button class="btn btn-default" (click)="prevYear()">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                </button>
+            </div>
+            <div class="col-sm-8 text-center">
+                {{ getYear() }}
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-default" (click)="nextYear()">
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table iq-calendar">
+            <thead>
+            <th class="text-center">S</th>
+            <th class="text-center">M</th>
+            <th class="text-center">T</th>
+            <th class="text-center">W</th>
+            <th class="text-center">T</th>
+            <th class="text-center">F</th>
+            <th class="text-center">S</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let week of weeks">
+                <td *ngFor="let day of week"
+                    class="text-center"
+                    [class.current-month]="day && day.currentMonth"
+                    [class.current-date]="day && day.currentDate">
+                    <a *ngIf="day" class="date-value">
+                        {{day.value}}
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+table.iq-calendar tr td {
+    padding: 6px;
+}
+
+table.iq-calendar tr td a {
+    padding: 2px;
+    min-width: 24px;
+    display: inline-block;
+}
+
+.date-value {
+    color: #aaa;
+}
+
+.current-date a.date-value {
+    background: #aaa;
+    border-radius: 100%;
+    color: #fff;
+}
+
+table.iq-calendar tr td a.date-value:hover {
+    background: #666;
+    border-radius: 100%;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.current-month .date-value {
+    color: #000;
+}

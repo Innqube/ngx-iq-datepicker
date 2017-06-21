@@ -7,9 +7,9 @@
                 </button>
             </span>
             <select class="form-control input-sm" (change)="selectMonth($event.target.value)">
-                <option *ngFor="let month of getMonths()"
-                        [value]="getMonths().indexOf(month)"
-                        [selected]="month === getMonths()[this.date.getMonth()]">
+                <option *ngFor="let month of translations.monthNames"
+                        [value]="translations.monthNames.indexOf(month)"
+                        [selected]="month === translations.monthNames[date.getMonth()]">
                     {{month}}
                 </option>
             </select>

@@ -79,13 +79,10 @@ export class IqCalendarComponent implements OnInit {
     }
 
     private populateCurrentMonthDates(offset: number) {
-        let dayNumber;
-        const today = new Date();
-        const currentDate = today.getDate();
-        const currentMonth = today.getMonth();
-        const currentYear = today.getFullYear();
         const lastDayDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
         const numberOfDaysInMonth = lastDayDate.getDate();
+
+        let dayNumber;
         for (let i = 0; i < numberOfDaysInMonth; i++) {
             let week = Math.floor((i + offset) / 7);
             dayNumber = (i + offset) % 7;
@@ -96,13 +93,19 @@ export class IqCalendarComponent implements OnInit {
 
             this.weeks[week][dayNumber] = {
                 currentMonth: true,
-                currentDate: this.date.getFullYear() === currentYear
-                && this.date.getMonth() === currentMonth
-                && currentDate === i + 1,
+                currentDate: this.isCurrentDate(i + 1),
                 value: i + 1
             };
         }
+
         return dayNumber;
+    }
+
+    private isCurrentDate(dayNumber: number) {
+        const today = new Date();
+        return this.date.getFullYear() === today.getFullYear()
+            && this.date.getMonth() === today.getMonth()
+            && dayNumber === today.getDate();
     }
 
     private populatePreviousMonthDates(offset: number) {
@@ -118,10 +121,6 @@ export class IqCalendarComponent implements OnInit {
                 };
             }
         }
-    }
-
-    getMonths(): string[] {
-        return this.translations.monthNames;
     }
 
     selectMonth(index: number) {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IqDatepickerTranslations} from '../iq-datepicker/iq-datepicker-translations';
 import {IqDatepickerOptions} from '../iq-datepicker/iq-datepicker-options';
 
@@ -12,6 +12,8 @@ export class IqCalendarComponent implements OnInit {
     @Input() options: IqDatepickerOptions;
     @Input() translations: IqDatepickerTranslations;
     @Input() date: Date = new Date();
+    @Input() selectedDate: Date;
+    @Output() dateSelected = new EventEmitter<Date>();
     weeks;
 
     constructor() {
@@ -74,10 +76,21 @@ export class IqCalendarComponent implements OnInit {
                 this.weeks[this.weeks.length - 1][i] = {
                     currentMonth: false,
                     currentDate: false,
+                    prevMonth: false,
+                    nextMonth: true,
+                    isSelectedDate: this.isSelectedDate(this.getNextMonth(), i - dayNumber + 1),
                     value: i - dayNumber + 1
                 };
             }
         }
+    }
+
+    private getPreviousMonth() {
+        return this.date.getMonth() === 0 ? 11 : this.date.getMonth() - 1;
+    }
+
+    private getNextMonth() {
+        return this.date.getMonth() === 11 ? 0 : this.date.getMonth() + 1;
     }
 
     private populateCurrentMonthDates(offset: number) {
@@ -96,6 +109,9 @@ export class IqCalendarComponent implements OnInit {
             this.weeks[week][dayNumber] = {
                 currentMonth: true,
                 currentDate: this.isCurrentDate(i + 1),
+                prevMonth: false,
+                nextMonth: false,
+                isSelectedDate: this.isSelectedDate(this.date.getMonth(), i + 1),
                 value: i + 1
             };
         }
@@ -119,6 +135,9 @@ export class IqCalendarComponent implements OnInit {
                 this.weeks[0][offset - i] = {
                     currentMonth: false,
                     currentDate: false,
+                    prevMonth: true,
+                    nextMonth: false,
+                    isSelectedDate: this.isSelectedDate(this.getPreviousMonth(), lastDayPreviousMonth.getDate() - i + 1),
                     value: lastDayPreviousMonth.getDate() - i + 1
                 };
             }
@@ -139,4 +158,29 @@ export class IqCalendarComponent implements OnInit {
         }
     }
 
+    onDateSelected(date: number, prevMonth: boolean, nextMonth: boolean) {
+        this.date.setDate(date);
+
+        if (prevMonth) {
+            this.prevMonth();
+        }
+
+        if (nextMonth) {
+            this.nextMonth();
+        }
+
+        this.selectedDate = this.date;
+        this.dateSelected.emit(this.date);
+        this.updateViewDays();
+    }
+
+    private isSelectedDate(month: number, date: number): boolean {
+        if (!this.selectedDate) {
+            return false;
+        } else {
+            return this.selectedDate.getFullYear() === this.date.getFullYear()
+                && this.selectedDate.getMonth() === month
+                && this.selectedDate.getDate() === date;
+        }
+    }
 }

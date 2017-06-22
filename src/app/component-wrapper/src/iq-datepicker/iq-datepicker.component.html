@@ -2,6 +2,7 @@
     <input class="form-control"
            [class.input-lg]="options.size === 'lg'"
            [class.input-sm]="options.size === 'sm'"
+           [formControl]="selectedDateInput"
            type="text">
     <span class="input-group-btn">
         <button [class]="options.removeBtnClass"
@@ -20,4 +21,6 @@
       </span>
 </div>
 <iq-calendar [translations]="translations"
-             [options]="options"></iq-calendar>
+             [options]="options"
+             [selectedDate]="selectedDate"
+             (dateSelected)="onDateSelected($event)"></iq-calendar>

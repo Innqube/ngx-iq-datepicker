@@ -44,10 +44,25 @@
     color: #aaa;
 }
 
+.current-date {
+    position: relative;
+}
+
 .current-date a.date-value {
-    background: #aaa;
+    border: 1px solid #cee5f3;
     border-radius: 3px;
-    color: #fff;
+}
+
+.current-date a.date-value::before {
+    content: "";
+    display: inline-block;
+    border: solid transparent;
+    border-width: 0 0 8px 8px;
+    border-bottom-color: #337ab7;
+    border-top-color: rgba(0,0,0,.2);
+    position: absolute;
+    bottom: 7px;
+    right: 8px;
 }
 
 .iq-calendar table tr td a.date-value:hover {
@@ -114,4 +129,10 @@
 
 .btn-right {
     border-left: none;
+}
+
+.selected-date a {
+    background: #d1edff;
+    border-radius: 3px;
+    color: #fff;
 }

@@ -61,9 +61,10 @@
                     <tr *ngFor="let week of weeks">
                         <td *ngFor="let day of week"
                             class="text-center"
+                            [class.selected-date]="day && day.isSelectedDate"
                             [class.current-month]="day && day.currentMonth"
                             [class.current-date]="day && day.currentDate">
-                            <a *ngIf="day" class="date-value">
+                            <a *ngIf="day" class="date-value" (click)="onDateSelected(day.value, day.prevMonth, day.nextMonth)">
                                 {{day.value}}
                             </a>
                         </td>

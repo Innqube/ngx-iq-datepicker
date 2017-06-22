@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
-import {IqDatepickerModule} from './component-wrapper/src/iq-datepicker.module';
+import {IqDatepickerModule} from './component-wrapper/src/app/iq-datepicker.module';
 
 @NgModule({
     declarations: [

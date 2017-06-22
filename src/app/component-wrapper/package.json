@@ -1,0 +1,33 @@
+{
+  "name": "ngx-iq-datepicker",
+  "description": "Angular datepicker based on bootstrap 3",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/Innqube/ngx-iq-datepicker"
+  },
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "clean": "find . -name '*.js.map' -type f -delete && find . -name '*.js' -type f -delete && find . -name '*.d.ts' -type f -delete",
+    "prepublish": "tsc"
+  },
+  "keywords": [
+    "ngx",
+    "datepicker",
+    "date",
+    "bootstrap"
+  ],
+  "peerDependencies": {
+    "@angular/common": ">=2.2.3",
+    "@angular/core": ">=2.2.3",
+    "@angular/platform-browser": ">=2.2.3",
+    "@angular/forms": ">=2.2.3"
+  },
+  "main": "./component.js",
+  "types": "./component.d.ts"
+}

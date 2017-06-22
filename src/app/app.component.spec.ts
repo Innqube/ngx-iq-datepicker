@@ -2,7 +2,7 @@ import {async, TestBed} from '@angular/core/testing';
 
 import {AppComponent} from './app.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {IqDatepickerModule} from './component-wrapper/src/iq-datepicker.module';
+import {IqDatepickerModule} from './component-wrapper/src/app/iq-datepicker.module';
 
 describe('AppComponent', () => {
     beforeEach(async(() => {

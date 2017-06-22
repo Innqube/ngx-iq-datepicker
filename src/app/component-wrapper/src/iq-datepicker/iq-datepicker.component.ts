@@ -43,6 +43,7 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     };
 
     defaults: IqDatepickerOptions = {
+        size: 'md',
         calendarBtnClass: 'btn btn-default',
         calendarBtnIcon: 'glyphicon glyphicon-calendar',
         removeBtnClass: 'btn btn-default',

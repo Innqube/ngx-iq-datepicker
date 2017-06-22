@@ -2,7 +2,7 @@
  * Created by diego on 6/21/17.
  */
 export class IqDatepickerOptions {
-    size?: 'sm' | 'lg';
+    size?: 'sm' | 'md' | 'lg';
     calendarBtnClass?: string;
     removeBtnClass?: string;
     removeBtnVisible?: boolean;

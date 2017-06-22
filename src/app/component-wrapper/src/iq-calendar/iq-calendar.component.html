@@ -1,70 +1,76 @@
-<div class="row">
-    <div class="col-sm-4">
-        <div class="input-group">
+<div class="calendar-container"
+     [class.lg]="options.size === 'lg'"
+     [class.sm]="options.size === 'sm'">
+    <div class="row date-selector-row">
+        <div class="col-sm-6">
+            <div class="input-group">
             <span class="input-group-btn">
-                <button type="button" class="btn btn-sm btn-default" (click)="prevMonth()">
+                <button type="button" class="btn btn-left btn-chevron btn-sm btn-default" (click)="prevMonth()">
                     <i class="glyphicon glyphicon-chevron-left"></i>
                 </button>
             </span>
-            <select class="form-control input-sm" (change)="selectMonth($event.target.value)">
-                <option *ngFor="let month of translations.monthNames"
-                        [value]="translations.monthNames.indexOf(month)"
-                        [selected]="month === translations.monthNames[date.getMonth()]">
-                    {{month}}
-                </option>
-            </select>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-sm btn-default" (click)="nextMonth()">
+                <select class="form-control input-sm" (change)="selectMonth($event.target.value)">
+                    <option *ngFor="let month of translations.monthNames"
+                            [value]="translations.monthNames.indexOf(month)"
+                            [selected]="month === translations.monthNames[date.getMonth()]">
+                        {{month}}
+                    </option>
+                </select>
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-right btn-chevron btn-sm btn-default" (click)="nextMonth()">
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
             </span>
+            </div>
         </div>
-    </div>
 
-    <div class="col-sm-4"></div>
+        <div class="col-sm-2"></div>
 
-    <div class="col-sm-4">
-        <div class="input-group">
+        <div class="col-sm-4">
+            <div class="input-group">
             <span class="input-group-btn">
-                <button type="button" class="btn btn-sm btn-default" (click)="prevYear()">
+                <button type="button" class="btn btn-left btn-chevron btn-sm btn-default" (click)="prevYear()">
                     <i class="glyphicon glyphicon-chevron-left"></i>
                 </button>
             </span>
-            <input class="form-control input-sm text-center" type="text" [value]="date.getFullYear()"
-                   (blur)="setYear($event.target.value)">
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-sm btn-default" (click)="nextYear()">
+                <input class="form-control input-sm text-center" type="text" [value]="date.getFullYear()"
+                       (blur)="setYear($event.target.value)">
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-right btn-chevron btn-sm btn-default" (click)="nextYear()">
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
             </span>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <table class="table iq-calendar">
-            <thead>
-            <th class="text-center">{{translations.daysAbrev[0]}}</th>
-            <th class="text-center">{{translations.daysAbrev[1]}}</th>
-            <th class="text-center">{{translations.daysAbrev[2]}}</th>
-            <th class="text-center">{{translations.daysAbrev[3]}}</th>
-            <th class="text-center">{{translations.daysAbrev[4]}}</th>
-            <th class="text-center">{{translations.daysAbrev[5]}}</th>
-            <th class="text-center">{{translations.daysAbrev[6]}}</th>
-            </thead>
-            <tbody>
-            <tr *ngFor="let week of weeks">
-                <td *ngFor="let day of week"
-                    class="text-center"
-                    [class.current-month]="day && day.currentMonth"
-                    [class.current-date]="day && day.currentDate">
-                    <a *ngIf="day" class="date-value">
-                        {{day.value}}
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="iq-calendar">
+                <table class="table">
+                    <thead>
+                    <th class="text-center">{{translations.daysAbrev[0]}}</th>
+                    <th class="text-center">{{translations.daysAbrev[1]}}</th>
+                    <th class="text-center">{{translations.daysAbrev[2]}}</th>
+                    <th class="text-center">{{translations.daysAbrev[3]}}</th>
+                    <th class="text-center">{{translations.daysAbrev[4]}}</th>
+                    <th class="text-center">{{translations.daysAbrev[5]}}</th>
+                    <th class="text-center">{{translations.daysAbrev[6]}}</th>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let week of weeks">
+                        <td *ngFor="let day of week"
+                            class="text-center"
+                            [class.current-month]="day && day.currentMonth"
+                            [class.current-date]="day && day.currentDate">
+                            <a *ngIf="day" class="date-value">
+                                {{day.value}}
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

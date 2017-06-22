@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IqDatepickerTranslations} from '../iq-datepicker/iq-datepicker-translations';
+import {IqDatepickerOptions} from '../iq-datepicker/iq-datepicker-options';
 
 @Component({
     selector: 'iq-calendar',
@@ -8,6 +9,7 @@ import {IqDatepickerTranslations} from '../iq-datepicker/iq-datepicker-translati
 })
 export class IqCalendarComponent implements OnInit {
 
+    @Input() options: IqDatepickerOptions;
     @Input() translations: IqDatepickerTranslations;
     @Input() date: Date = new Date();
     weeks;

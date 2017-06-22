@@ -5,11 +5,16 @@
         <div class="col-sm-6">
             <div class="input-group">
             <span class="input-group-btn">
-                <button type="button" class="btn btn-left btn-chevron btn-sm btn-default" (click)="prevMonth()">
+                <button tabindex="-1"
+                        type="button"
+                        class="btn btn-left btn-chevron btn-sm btn-default"
+                        (click)="prevMonth()">
                     <i class="glyphicon glyphicon-chevron-left"></i>
                 </button>
             </span>
-                <select class="form-control input-sm" (change)="selectMonth($event.target.value)">
+                <select tabindex="-1"
+                        class="form-control input-sm"
+                        (change)="selectMonth($event.target.value)">
                     <option *ngFor="let month of translations.monthNames"
                             [value]="translations.monthNames.indexOf(month)"
                             [selected]="month === translations.monthNames[date.getMonth()]">
@@ -17,7 +22,10 @@
                     </option>
                 </select>
                 <span class="input-group-btn">
-                <button type="button" class="btn btn-right btn-chevron btn-sm btn-default" (click)="nextMonth()">
+                <button tabindex="-1"
+                        type="button"
+                        class="btn btn-right btn-chevron btn-sm btn-default"
+                        (click)="nextMonth()">
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
             </span>
@@ -29,14 +37,22 @@
         <div class="col-sm-4">
             <div class="input-group">
             <span class="input-group-btn">
-                <button type="button" class="btn btn-left btn-chevron btn-sm btn-default" (click)="prevYear()">
+                <button tabindex="-1"
+                        type="button"
+                        class="btn btn-left btn-chevron btn-sm btn-default"
+                        (click)="prevYear()">
                     <i class="glyphicon glyphicon-chevron-left"></i>
                 </button>
             </span>
-                <input class="form-control input-sm text-center" type="text" [value]="date.getFullYear()"
+                <input tabindex="-1"
+                       class="form-control input-sm text-center"
+                       type="text" [value]="date.getFullYear()"
                        (blur)="setYear($event.target.value)">
                 <span class="input-group-btn">
-                <button type="button" class="btn btn-right btn-chevron btn-sm btn-default" (click)="nextYear()">
+                <button tabindex="-1"
+                        type="button"
+                        class="btn btn-right btn-chevron btn-sm btn-default"
+                        (click)="nextYear()">
                     <i class="glyphicon glyphicon-chevron-right"></i>
                 </button>
             </span>

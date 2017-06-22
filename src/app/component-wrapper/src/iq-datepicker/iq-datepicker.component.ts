@@ -1,9 +1,22 @@
-import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    HostListener,
+    Input,
+    OnInit,
+    Output,
+    ViewChild
+} from '@angular/core';
 import {IqDatepickerOptions} from './iq-datepicker-options';
 import {IqDatepickerTranslations} from './iq-datepicker-translations';
 import {IqDatepickerEnglishTranslation} from './iq-datepicker-english-translation';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {IqCalendarComponent} from '../iq-calendar/iq-calendar.component';
 
+const KEY_CODE_ENTER = 13;
+const KEY_CODE_TAB = 9;
 const VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => IqDatepickerComponent),
@@ -22,7 +35,10 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     @Input() options: IqDatepickerOptions = {};
     @Input() translations: IqDatepickerTranslations = new IqDatepickerEnglishTranslation();
     @Output() dateSelected = new EventEmitter<Date>();
+    @ViewChild(IqCalendarComponent) calendarComponent;
     selectedDateInput = new FormControl();
+    calendarVisible = false;
+    disabled = false;
     propagateChange = (_: any) => {
     };
 
@@ -34,11 +50,11 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
         removeBtnIcon: 'glyphicon glyphicon-remove'
     };
 
-    constructor() {
+    constructor(private elementRef: ElementRef) {
     }
 
     writeValue(obj: Date): void {
-        this.selectedDate = new Date(obj.getTime());
+        this.selectedDate = obj ? new Date(obj.getTime()) : null;
         this.onDateSelected(this.selectedDate);
     }
 
@@ -47,6 +63,11 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     }
 
     registerOnTouched(fn: any): void {
+    }
+
+    setDisabledState(isDisabled: boolean): void {
+        this.disabled = isDisabled;
+        this.selectedDateInput.disable(isDisabled);
     }
 
     ngOnInit() {
@@ -62,9 +83,10 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
 
     onDateSelected(date: Date) {
         this.selectedDateInput.patchValue(this.dateToString(date));
-        this.selectedDate = new Date(date.getTime());
+        this.selectedDate = date ? new Date(date.getTime()) : null;
         this.propagateChange(this.selectedDate);
         this.dateSelected.emit(this.selectedDate);
+        this.hideCalendar();
     }
 
     private dateToString(date: Date): string {
@@ -72,6 +94,41 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
             return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
         } else {
             return null;
+        }
+    }
+
+    clear() {
+        this.onDateSelected(null);
+
+        if (this.calendarComponent) {
+            this.calendarComponent.selectedDate = null;
+            this.calendarComponent.updateViewDays();
+        }
+    }
+
+    showCalendar() {
+        this.calendarVisible = true;
+    }
+
+    hideCalendar() {
+        this.calendarVisible = false;
+    }
+
+    toggleCalendar() {
+        this.calendarVisible = !this.calendarVisible;
+    }
+
+    @HostListener('keydown', ['$event'])
+    handleKeyDown(event: any) {
+        if (event.keyCode === KEY_CODE_ENTER || event.keyCode === KEY_CODE_TAB) {
+            this.hideCalendar();
+        }
+    }
+
+    @HostListener('document:click', ['$event'])
+    handleClick(event: any) {
+        if (this.calendarVisible && !this.elementRef.nativeElement.contains(event.target)) {
+            this.hideCalendar();
         }
     }
 }

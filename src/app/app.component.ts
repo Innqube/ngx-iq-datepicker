@@ -17,6 +17,5 @@ export class AppComponent implements OnInit {
         this.form = this.formBuilder.group({
             date: null
         });
-        this.form.valueChanges.subscribe(newValue => console.log(newValue));
     }
 }

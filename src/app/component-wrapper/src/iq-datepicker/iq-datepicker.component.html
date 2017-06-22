@@ -3,24 +3,32 @@
            [class.input-lg]="options.size === 'lg'"
            [class.input-sm]="options.size === 'sm'"
            [formControl]="selectedDateInput"
+           (focus)="showCalendar()"
            type="text">
     <span class="input-group-btn">
-        <button [class]="options.removeBtnClass"
+        <button tabindex="-1"
+                [class]="options.removeBtnClass"
                 [class.btn-lg]="options.size === 'lg'"
                 [class.btn-sm]="options.size === 'sm'"
+                (click)="clear()"
                 *ngIf="options.removeBtnVisible"
+                [disabled]="disabled"
                 type="button">
             <i class="glyphicon  glyphicon-remove"></i>
         </button>
-        <button [class]="options.calendarBtnClass"
+        <button tabindex="-1"
+                [class]="options.calendarBtnClass"
                 [class.btn-lg]="options.size === 'lg'"
                 [class.btn-sm]="options.size === 'sm'"
+                (click)="toggleCalendar()"
+                [disabled]="disabled"
                 type="button">
             <i class="glyphicon  glyphicon-calendar"></i>
         </button>
       </span>
 </div>
-<iq-calendar [translations]="translations"
+<iq-calendar *ngIf="calendarVisible"
+             [translations]="translations"
              [options]="options"
              [selectedDate]="selectedDate"
              (dateSelected)="onDateSelected($event)"></iq-calendar>

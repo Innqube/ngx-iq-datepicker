@@ -42,6 +42,7 @@ export class IqDatepickerOptions {
     removeBtnVisible?: boolean;
     removeBtnIcon?: string;
     calendarBtnIcon?: string;
+    horizontal?: boolean;
 }
 ```
 

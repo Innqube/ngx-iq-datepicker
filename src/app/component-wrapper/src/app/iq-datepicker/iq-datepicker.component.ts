@@ -48,7 +48,8 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
         calendarBtnIcon: 'glyphicon glyphicon-calendar',
         removeBtnClass: 'btn btn-default',
         removeBtnVisible: true,
-        removeBtnIcon: 'glyphicon glyphicon-remove'
+        removeBtnIcon: 'glyphicon glyphicon-remove',
+        horizontal: false
     };
 
     constructor(private elementRef: ElementRef) {

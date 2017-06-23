@@ -47,7 +47,9 @@
             </span>
                 <input tabindex="-1"
                        class="form-control input-sm text-center"
-                       type="text" [value]="date.getFullYear()"
+                       type="text"
+                       [value]="date.getFullYear()"
+                       (keydown)="onKeyDown($event)"
                        (blur)="setYear($event.target.value)">
                 <span class="input-group-btn">
                 <button tabindex="-1"

@@ -184,4 +184,11 @@ export class IqCalendarComponent implements OnInit {
                 && this.selectedDate.getDate() === date;
         }
     }
+
+    onKeyDown(event: any) {
+        if (event.keyCode === 13) {
+            this.setYear(event.target.value);
+            event.stopPropagation();
+        }
+    }
 }

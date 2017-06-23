@@ -7,7 +7,7 @@
     padding: 1px;
     right: 0;
     width: 280px;
-    z-index: 1200;
+    z-index: 1040;
 }
 
 .calendar-container input,
@@ -82,7 +82,7 @@
     color: #000;
 }
 
-.btn-chevron {
+.input-group-btn > .btn.btn-chevron {
     color: #666;
     padding: 5px 2px
 }

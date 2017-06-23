@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 import {IqDatepickerComponent} from './iq-datepicker.component';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
@@ -125,6 +125,37 @@ describe('IqDatepickerComponent', () => {
         const selectors = fixture.nativeElement.querySelectorAll('button');
         expect(selectors.length).toBe(1);
     });
+
+    it('should set selected date after valid input is entered', fakeAsync(() => {
+        const input = fixture.nativeElement.querySelector('input');
+        input.value = '14/11/1985';
+        input.dispatchEvent(new Event('input'));
+        tick(200);
+        expect(component.selectedDate.getFullYear()).toBe(1985);
+        expect(component.selectedDate.getMonth()).toBe(10);
+        expect(component.selectedDate.getDate()).toBe(14);
+    }));
+
+    it('should update calendar year after entering as text', fakeAsync(() => {
+        const input = fixture.nativeElement.querySelector('input');
+        input.value = '14/11/1985';
+        input.dispatchEvent(new Event('input'));
+        tick(200);
+        component.calendarVisible = true;
+        fixture.detectChanges();
+        expect(component.calendarComponent.date.getFullYear()).toBe(1985);
+    }));
+
+    it('should update calendar month after entering as text', fakeAsync(() => {
+        const input = fixture.nativeElement.querySelector('input');
+        input.value = '14/11/1985';
+        input.dispatchEvent(new Event('input'));
+        tick(200);
+        component.calendarVisible = true;
+        fixture.detectChanges();
+        expect(component.calendarComponent.date.getMonth()).toBe(10);
+    }));
+
 });
 
 @Component({

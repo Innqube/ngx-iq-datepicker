@@ -9,7 +9,6 @@ Angular datepicker with bootstrap integration
 
 * Bootstrap 3 based
 * Forms integration: receives and returns Date
-* No dependencies
 * MIT License
 
 Usage example
@@ -36,13 +35,15 @@ import { IqSelect2Module } from 'ngx-iq-datepicker';
 *Options*
 ```javascript
 export class IqDatepickerOptions {
-    size?: 'sm' | 'md' | 'lg';
-    calendarBtnClass?: string;
-    removeBtnClass?: string;
-    removeBtnVisible?: boolean;
-    removeBtnIcon?: string;
-    calendarBtnIcon?: string;
-    horizontal?: boolean;
+    size?: 'sm' | 'md' | 'lg'; // default 'md'
+    calendarBtnClass?: string; // default 'btn btn-default'
+    removeBtnClass?: string; // default 'btn btn-default'
+    removeBtnVisible?: boolean; // default true
+    removeBtnIcon?: string; // default 'glyphicon glyphicon-remove'
+    calendarBtnIcon?: string; // default 'glyphicon glyphicon-calendar'
+    horizontal?: boolean; // default false - Useful for horizontal-forms
+    showPlaceholder?: boolean; // default true
+    dateFormat?: 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd' | 'yyyy/dd/mm'; // default 'dd/mm/yyyy'
 }
 ```
 

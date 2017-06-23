@@ -15,6 +15,38 @@ How it looks
 ---
 ![Ngx IQ Datepicker Component](https://image.ibb.co/bs61sk/Ngx_Iq_Datepicker.png)
 
+Some helpful code
+---
+It may be helpful to add a "reviver" when parsing dates coming from a service. For example, if the date is ISO8601 formmated ([idea taken from here](https://msdn.microsoft.com/library/cc836466(v=vs.94).aspx)):
+
+```javascript
+export class JsonHttp extends Http {
+
+    private static ISO8601_REGEX = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/;
+
+    private static DateReviver(key: any, value: any) {
+        if (typeof value === 'string' && JsonHttp.ISO8601_REGEX.test(value)) {
+            return new Date(value);
+        } else {
+            return value;
+        }
+    }
+    
+    ...
+    
+    get<T>(url: string, options?: RequestOptionsArgs): Observable<T> {
+            return super.get(url, options)
+                .map((response) => JSON.parse(response.text(), JsonHttp.DateReviver))
+                .catch((error: any) => Observable.throw(JsonHttp.handleError(error)));
+        }
+    
+    post<T>(url: string, body: any, options?: RequestOptionsArgs): Observable<T> {
+        return super.post(url, body, options)
+            .map((response) => JSON.parse(response.text()), JsonHttp.DateReviver)
+            .catch((error: any) => Observable.throw(JsonHttp.handleError(error)));
+    }
+```
+
 
 Usage example
 ---
@@ -41,14 +73,14 @@ import { IqSelect2Module } from 'ngx-iq-datepicker';
 ```javascript
 export class IqDatepickerOptions {
     size?: 'sm' | 'md' | 'lg'; // default 'md'
-        calendarBtnClass?: string; // default 'btn btn-default'
-        removeBtnClass?: string; // default 'btn btn-default'
-        removeBtnVisible?: boolean; // default true
-        removeBtnIcon?: string; // default 'glyphicon glyphicon-remove'
-        calendarBtnIcon?: string; // default 'glyphicon glyphicon-calendar'
-        horizontal?: boolean; // default false - Useful for horizontal-forms
-        showPlaceholder?: boolean; // default true
-        dateFormat?: 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd' | 'yyyy/dd/mm'; // default 'dd/mm/yyyy'
+    calendarBtnClass?: string; // default 'btn btn-default'
+    removeBtnClass?: string; // default 'btn btn-default'
+    removeBtnVisible?: boolean; // default true
+    removeBtnIcon?: string; // default 'glyphicon glyphicon-remove'
+    calendarBtnIcon?: string; // default 'glyphicon glyphicon-calendar'
+    horizontal?: boolean; // default false - Useful for horizontal-forms
+    showPlaceholder?: boolean; // default true
+    dateFormat?: 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd' | 'yyyy/dd/mm'; // default 'dd/mm/yyyy'
 }
 ```
 

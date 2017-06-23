@@ -5,7 +5,7 @@
            [formControl]="selectedDateInput"
            (focus)="showCalendar()"
            [textMask]="{mask: dateMask}"
-           [placeholder]="options.showPlaceholder && options.dateFormat"
+           [placeholder]="options.showPlaceholder ? options.dateFormat : ''"
            type="text">
     <span class="input-group-btn">
         <button tabindex="-1"

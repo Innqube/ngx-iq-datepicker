@@ -11,6 +11,10 @@ Angular datepicker with bootstrap integration
 * Forms integration: receives and returns Date
 * MIT License
 
+How it looks
+---
+![Ngx IQ Datepicker Component](https://image.ibb.co/bs61sk/Ngx_Iq_Datepicker.png)
+
 Usage example
 ---
 ```javascript

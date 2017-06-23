@@ -14,6 +14,8 @@ import {IqDatepickerTranslations} from './iq-datepicker-translations';
 import {IqDatepickerEnglishTranslation} from './iq-datepicker-english-translation';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {IqCalendarComponent} from '../iq-calendar/iq-calendar.component';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 const KEY_CODE_ENTER = 13;
 const KEY_CODE_TAB = 9;
@@ -39,6 +41,15 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     selectedDateInput = new FormControl();
     calendarVisible = false;
     disabled = false;
+
+    dateMask = [];
+    yearMask = [/[1-3]/, /\d/, /\d/, /\d/];
+    monthMask = [/[0-1]/, /\d/];
+    dayMask = [/[0-3]/, /\d/];
+    yearIndex;
+    monthIndex;
+    dayIndex;
+
     propagateChange = (_: any) => {
     };
 
@@ -49,7 +60,9 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
         removeBtnClass: 'btn btn-default',
         removeBtnVisible: true,
         removeBtnIcon: 'glyphicon glyphicon-remove',
-        horizontal: false
+        horizontal: false,
+        dateFormat: 'dd/mm/yyyy',
+        showPlaceholder: true
     };
 
     constructor(private elementRef: ElementRef) {
@@ -73,6 +86,34 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
 
     ngOnInit() {
         this.setDefaults();
+        this.buildDateMask();
+        this.selectedDateInput
+            .valueChanges
+            .debounceTime(100)
+            .distinctUntilChanged()
+            .subscribe(newValue => {
+                if (newValue) {
+                    const year = newValue.substring(this.yearIndex, this.yearIndex + 4);
+                    const month = newValue.substring(this.monthIndex, this.monthIndex + 2);
+                    const day = newValue.substring(this.dayIndex, this.dayIndex + 2);
+
+                    if (!isNaN(year) && this.calendarComponent) {
+                        this.calendarComponent.setYear(year);
+                    }
+
+                    if (!isNaN(month) && this.calendarComponent) {
+                        this.calendarComponent.selectMonth(month - 1);
+                    }
+
+                    if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+                        let date = new Date(year, month - 1, day);
+                        this.onDateSelected(date);
+                    }
+                }
+            });
+        this.yearIndex = this.options.dateFormat.indexOf('yyyy');
+        this.monthIndex = this.options.dateFormat.indexOf('mm');
+        this.dayIndex = this.options.dateFormat.indexOf('dd');
     }
 
     private setDefaults() {
@@ -92,7 +133,14 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
 
     private dateToString(date: Date): string {
         if (date) {
-            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+            let dateStr: string = this.options.dateFormat;
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+
+            dateStr = dateStr.replace(/dd/g, day < 10 ? '0' + day : String(day));
+            dateStr = dateStr.replace(/mm/g, month < 10 ? '0' + month : String(month));
+            dateStr = dateStr.replace(/yyyy/g, String(date.getFullYear()));
+            return dateStr;
         } else {
             return null;
         }
@@ -131,5 +179,19 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
         if (this.calendarVisible && !this.elementRef.nativeElement.contains(event.target)) {
             this.hideCalendar();
         }
+    }
+
+    private buildDateMask() {
+        const items = [];
+        items[this.options.dateFormat.indexOf('dd')] = this.dayMask;
+        items[this.options.dateFormat.indexOf('mm')] = this.monthMask;
+        items[this.options.dateFormat.indexOf('yyyy')] = this.yearMask;
+
+        Object.keys(items).forEach((key, i) => {
+            if (i > 0) {
+                this.dateMask.push(['/']);
+            }
+            items[key].forEach(item => this.dateMask.push(item));
+        });
     }
 }

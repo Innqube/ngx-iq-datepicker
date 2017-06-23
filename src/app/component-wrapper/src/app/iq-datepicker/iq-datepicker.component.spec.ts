@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {IqDatepickerEnglishTranslation} from './iq-datepicker-english-translation';
 import {IqCalendarComponent} from '../iq-calendar/iq-calendar.component';
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {TextMaskModule} from 'angular2-text-mask';
 
 describe('IqDatepickerComponent', () => {
     let component: IqDatepickerComponent;
@@ -19,7 +20,8 @@ describe('IqDatepickerComponent', () => {
                 TestHostComponentDisabled
             ],
             imports: [
-                ReactiveFormsModule
+                ReactiveFormsModule,
+                TextMaskModule
             ]
         }).compileComponents();
     }));

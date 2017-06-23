@@ -11,7 +11,7 @@ export class IqCalendarComponent implements OnInit {
 
     @Input() options: IqDatepickerOptions;
     @Input() translations: IqDatepickerTranslations;
-    @Input() date: Date = new Date();
+    @Input() date: Date;
     @Input() selectedDate: Date;
     @Output() dateSelected = new EventEmitter<Date>();
     weeks;
@@ -20,6 +20,7 @@ export class IqCalendarComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.date = this.selectedDate ? new Date(this.selectedDate.getTime()) : new Date();
         this.updateViewDays();
     }
 

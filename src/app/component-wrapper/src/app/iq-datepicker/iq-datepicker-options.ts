@@ -9,4 +9,6 @@ export class IqDatepickerOptions {
     removeBtnIcon?: string;
     calendarBtnIcon?: string;
     horizontal?: boolean;
+    showPlaceholder?: boolean;
+    dateFormat?: 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd' | 'yyyy/dd/mm';
 }

@@ -22,6 +22,9 @@
     "date",
     "bootstrap"
   ],
+  "dependencies": {
+    "angular2-text-mask": "^8.0.2"
+  },
   "peerDependencies": {
     "@angular/common": ">=2.2.3",
     "@angular/core": ">=2.2.3",

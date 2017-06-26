@@ -113,4 +113,14 @@ describe('IqCalendarComponent', () => {
         component.setYear(1969);
         expect(component.date.getFullYear()).toBe(new Date().getFullYear());
     });
+
+    it('should stop propagation when entering year with enter key', () => {
+        const input = fixture.nativeElement.querySelector('input');
+        const event = document.createEvent('Event');
+        event.initEvent('keydown', true, true);
+        event['keyCode'] = 13;
+        spyOn(event, 'stopPropagation');
+        input.dispatchEvent(event);
+        expect(event.stopPropagation).toHaveBeenCalled();
+    });
 });

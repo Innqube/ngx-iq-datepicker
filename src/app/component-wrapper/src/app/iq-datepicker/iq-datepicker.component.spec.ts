@@ -137,24 +137,52 @@ describe('IqDatepickerComponent', () => {
     }));
 
     it('should update calendar year after entering as text', fakeAsync(() => {
+        component.calendarVisible = true;
+        fixture.detectChanges();
         const input = fixture.nativeElement.querySelector('input');
         input.value = '14/11/1985';
         input.dispatchEvent(new Event('input'));
         tick(200);
-        component.calendarVisible = true;
-        fixture.detectChanges();
         expect(component.calendarComponent.date.getFullYear()).toBe(1985);
     }));
 
     it('should update calendar month after entering as text', fakeAsync(() => {
+        component.calendarVisible = true;
+        fixture.detectChanges();
         const input = fixture.nativeElement.querySelector('input');
         input.value = '14/11/1985';
         input.dispatchEvent(new Event('input'));
         tick(200);
-        component.calendarVisible = true;
-        fixture.detectChanges();
         expect(component.calendarComponent.date.getMonth()).toBe(10);
     }));
+
+    it('should accept an iso date', () => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        parent.detectChanges();
+        const component = parent.componentInstance;
+        component.form.patchValue({date: '2017-06-26T19:06:42.916Z'});
+        expect(component.form.value.date.getFullYear()).toBe(2017);
+        expect(component.form.value.date.getMonth()).toBe(5);
+        expect(component.form.value.date.getDate()).toBe(26);
+    });
+
+    it('should accept a unix date', () => {
+        let parent = TestBed.createComponent(TestHostComponent);
+        parent.detectChanges();
+        const component = parent.componentInstance;
+        component.form.patchValue({date: 1498505806668});
+        expect(component.form.value.date.getFullYear()).toBe(2017);
+        expect(component.form.value.date.getMonth()).toBe(5);
+        expect(component.form.value.date.getDate()).toBe(26);
+    });
+
+    it('should hide calendar when clicking outside component', () => {
+        spyOn(component, 'hideCalendar');
+        component.calendarVisible = true;
+        fixture.detectChanges();
+        component.handleClick({});
+        expect(component.hideCalendar).toHaveBeenCalled();
+    });
 
 });
 

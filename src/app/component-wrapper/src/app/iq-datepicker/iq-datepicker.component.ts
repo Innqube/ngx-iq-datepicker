@@ -68,8 +68,12 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     constructor(private elementRef: ElementRef) {
     }
 
-    writeValue(obj: Date): void {
-        this.onDateSelected(obj);
+    writeValue(obj: any): void {
+        let date = obj;
+        if (typeof obj === 'string' || typeof obj === 'number') {
+            date = new Date(date);
+        }
+        this.onDateSelected(date);
     }
 
     registerOnChange(fn: any): void {

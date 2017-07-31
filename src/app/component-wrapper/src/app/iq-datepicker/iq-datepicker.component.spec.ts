@@ -191,13 +191,14 @@ describe('IqDatepickerComponent', () => {
         expect(component.selectedDate.getDate()).toBe(new Date().getDate());
     });
 
-    it('enter should not override with current date if date already set', () => {
+    fit('enter should not override with current date if date already set', fakeAsync(() => {
         component.writeValue('14/11/1985');
+        tick(200);
         component.handleKeyDown({keyCode: 13});
         expect(component.selectedDate.getFullYear()).not.toBe(new Date().getFullYear());
         expect(component.selectedDate.getMonth()).not.toBe(new Date().getMonth());
         expect(component.selectedDate.getDate()).not.toBe(new Date().getDate());
-    });
+    }));
 
 });
 

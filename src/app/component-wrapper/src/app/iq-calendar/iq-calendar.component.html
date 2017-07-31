@@ -83,7 +83,8 @@
                             [class.selected-date]="day && day.isSelectedDate"
                             [class.current-month]="day && day.currentMonth"
                             [class.current-date]="day && day.currentDate">
-                            <a *ngIf="day" class="date-value" (click)="onDateSelected(day.value, day.prevMonth, day.nextMonth)">
+                            <a *ngIf="day" class="date-value"
+                               (click)="onDateSelected(day.value, day.prevMonth, day.nextMonth)">
                                 {{day.value}}
                             </a>
                         </td>
@@ -91,6 +92,15 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+
+    <div class="row date-selector-row" *ngIf="options?.time">
+        <div class="col-sm-4 col-sm-offset-4">
+            <input class="form-control input-sm text-center"
+                   [textMask]="{mask: mask}"
+                   placeholder="hh:mm"
+                   [formControl]="timeInput">
         </div>
     </div>
 </div>

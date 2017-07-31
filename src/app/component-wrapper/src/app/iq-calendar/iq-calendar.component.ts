@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IqDatepickerTranslations} from '../iq-datepicker/iq-datepicker-translations';
 import {IqDatepickerOptions} from '../iq-datepicker/iq-datepicker-options';
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'iq-calendar',
@@ -15,6 +16,9 @@ export class IqCalendarComponent implements OnInit {
     @Input() selectedDate: Date;
     @Output() dateSelected = new EventEmitter<Date>();
     weeks;
+    static timeMask = [/[0-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/];
+    mask = IqCalendarComponent.timeMask;
+    timeInput = new FormControl();
 
     constructor() {
     }
@@ -22,6 +26,25 @@ export class IqCalendarComponent implements OnInit {
     ngOnInit() {
         this.date = this.selectedDate ? new Date(this.selectedDate.getTime()) : new Date();
         this.updateViewDays();
+        this.timeInput
+            .valueChanges
+            .subscribe(newValue => {
+                const values = newValue.split(':');
+
+                if (!isNaN(values[0]) && !isNaN(values[1])) {
+                    this.selectedDate.setHours(values[0]);
+                    this.selectedDate.setMinutes(values[1]);
+                    this.dateSelected.emit(this.selectedDate);
+                }
+            });
+
+        setTimeout(() => {
+            if (this.selectedDate) {
+                const hours = this.selectedDate.getHours() < 10 ? this.selectedDate.getHours() + '0' : String(this.selectedDate.getHours());
+                const minutes = this.selectedDate.getMinutes() < 10 ? this.selectedDate.getMinutes() + '0' : String(this.selectedDate.getMinutes())
+                this.timeInput.setValue(hours + ':' + minutes, { emitEvent: false });
+            }
+        }, 1);
     }
 
     prevMonth() {
@@ -145,8 +168,18 @@ export class IqCalendarComponent implements OnInit {
         }
     }
 
-    selectMonth(index: number) {
-        this.date.setMonth(index);
+    selectMonth(month: number) {
+        let lastDay = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
+
+        if (this.date.getDate() === lastDay.getDate()) {
+            this.date.setDate(1);
+            this.date.setMonth(month);
+
+            lastDay = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
+            this.date.setDate(lastDay.getDate());
+        }
+
+        this.date.setMonth(month);
         this.updateViewDays();
     }
 
@@ -157,6 +190,34 @@ export class IqCalendarComponent implements OnInit {
         } else {
             this.date.setFullYear(new Date().getFullYear())
         }
+    }
+    
+    setHours(hours: number) {
+        let hoursStr;
+        let minutesInput = this.timeInput.value;
+        const minutesStr = minutesInput ? minutesInput.substring(3, 5) : '00';
+
+        if (hours && hours >= 0 && hours <= 23) {
+            this.date.setHours(hours);
+            hoursStr = hours < 10 ? '0' + hours : String(hours);
+        } else {
+            hoursStr = '00';
+        }
+        this.timeInput.setValue(hoursStr + ':' + minutesStr, { emitEvent: false });
+    }
+    
+    setMinutes(minutes: number) {
+        let hoursInput = this.timeInput.value;
+        const hoursStr = hoursInput ? hoursInput.substring(0, 2) : '00';
+        let minutesStr;
+
+        if (minutes && minutes >= 0 && minutes <= 59) {
+            this.date.setMinutes(minutes);
+            minutesStr = minutes < 10 ? '0' + minutes : String(minutes);
+        } else {
+            minutesStr = '00';
+        }
+        this.timeInput.setValue(hoursStr + ':' + minutesStr, { emitEvent: false });
     }
 
     onDateSelected(date: number, prevMonth: boolean, nextMonth: boolean) {

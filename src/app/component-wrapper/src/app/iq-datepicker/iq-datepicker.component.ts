@@ -61,8 +61,9 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
         removeBtnVisible: true,
         removeBtnIcon: 'glyphicon glyphicon-remove',
         horizontal: false,
-        dateFormat: 'dd/mm/yyyy',
-        showPlaceholder: true
+        dateFormat: 'dd/MM/yyyy',
+        showPlaceholder: true,
+        time: false
     };
 
     constructor(private elementRef: ElementRef) {
@@ -100,25 +101,38 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
                     const year = newValue.substring(this.yearIndex, this.yearIndex + 4);
                     const month = newValue.substring(this.monthIndex, this.monthIndex + 2);
                     const day = newValue.substring(this.dayIndex, this.dayIndex + 2);
+                    const hours = Number(newValue.substring(11, 13));
+                    const minutes = Number(newValue.substring(14, 16));
 
-                    if (!isNaN(year) && this.calendarComponent) {
-                        this.calendarComponent.setYear(year);
-                    }
+                    if (this.calendarComponent) {
+                        if (!isNaN(month)) {
+                            this.calendarComponent.selectMonth(month - 1);
+                        }
 
-                    if (!isNaN(month) && this.calendarComponent) {
-                        this.calendarComponent.selectMonth(month - 1);
+                        if (!isNaN(year)) {
+                            this.calendarComponent.setYear(year);
+                        }
+
+                        this.calendarComponent.setHours(isNaN(hours) ? 0 : hours);
+                        this.calendarComponent.setMinutes(isNaN(minutes) ? 0 : minutes);
                     }
 
                     if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
-                        let date = new Date(year, month - 1, day);
-                        this.onDateSelected(date);
+
+                        if (!this.options.time) {
+                            this.onDateSelected(new Date(year, month - 1, day));
+                        } else {
+                            if (!isNaN(hours) && !isNaN(minutes)) {
+                                this.onDateSelected(new Date(year, month, day, hours, minutes));
+                            }
+                        }
                     }
                 } else {
                     this.onDateSelected(null);
                 }
             });
         this.yearIndex = this.options.dateFormat.indexOf('yyyy');
-        this.monthIndex = this.options.dateFormat.indexOf('mm');
+        this.monthIndex = this.options.dateFormat.indexOf('MM');
         this.dayIndex = this.options.dateFormat.indexOf('dd');
     }
 
@@ -139,13 +153,18 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
 
     private dateToString(date: Date): string {
         if (date) {
-            let dateStr: string = this.options.dateFormat;
+            let dateStr: string = this.getDateFormat();
             let month = date.getMonth() + 1;
             let day = date.getDate();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
 
-            dateStr = dateStr.replace(/dd/g, day < 10 ? '0' + day : String(day));
-            dateStr = dateStr.replace(/mm/g, month < 10 ? '0' + month : String(month));
-            dateStr = dateStr.replace(/yyyy/g, String(date.getFullYear()));
+            dateStr = dateStr
+                .replace(/dd/g, day < 10 ? '0' + day : String(day))
+                .replace(/MM/g, month < 10 ? '0' + month : String(month))
+                .replace(/yyyy/g, String(date.getFullYear()))
+                .replace(/hh/g, hours < 10 ? '0' + hours : String(hours))
+                .replace(/mm/g, minutes < 10 ? '0' + minutes : String(minutes));
             return dateStr;
         } else {
             return null;
@@ -176,33 +195,72 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     @HostListener('keydown', ['$event'])
     handleKeyDown(event: any) {
         if (event.keyCode === KEY_CODE_ENTER || event.keyCode === KEY_CODE_TAB) {
+            this.completeValuesAndHide(event);
+        }
+    }
 
-            if (event.keyCode === KEY_CODE_ENTER && !this.selectedDateInput.value) {
-                this.onDateSelected(new Date());
+    private completeValuesAndHide(event: any) {
+        const textInput = this.selectedDateInput.value;
+
+        if (textInput && this.options.time) {
+            const year = textInput.substring(this.yearIndex, this.yearIndex + 4);
+            const month = textInput.substring(this.monthIndex, this.monthIndex + 2);
+            const day = textInput.substring(this.dayIndex, this.dayIndex + 2);
+            const hours = textInput.substring(11, 13);
+            const minutes = textInput.substring(14, 16);
+
+            let date;
+
+            if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+                date = new Date(year, month - 1, day);
             }
 
-            this.hideCalendar();
+            date.setHours(isNaN(hours) ? 0 : hours);
+            date.setMinutes(isNaN(minutes) ? 0 : minutes);
+
+            this.onDateSelected(date);
+        } else if (event.keyCode === KEY_CODE_ENTER) {
+            this.onDateSelected(new Date());
         }
+
+        this.hideCalendar();
     }
 
     @HostListener('document:click', ['$event'])
     handleClick(event: any) {
         if (this.calendarVisible && !this.elementRef.nativeElement.contains(event.target)) {
-            this.hideCalendar();
+            this.completeValuesAndHide(event);
         }
     }
 
     private buildDateMask() {
         const items = [];
         items[this.options.dateFormat.indexOf('dd')] = this.dayMask;
-        items[this.options.dateFormat.indexOf('mm')] = this.monthMask;
+        items[this.options.dateFormat.indexOf('MM')] = this.monthMask;
         items[this.options.dateFormat.indexOf('yyyy')] = this.yearMask;
 
         Object.keys(items).forEach((key, i) => {
             if (i > 0) {
-                this.dateMask.push(['/']);
+                this.dateMask.push('/');
             }
             items[key].forEach(item => this.dateMask.push(item));
         });
+
+        if (this.options.time) {
+            this.dateMask.push(' ');
+            this.dateMask.push(...IqCalendarComponent.timeMask);
+        }
+    }
+
+    getMask() {
+        return this.dateMask;
+    }
+
+    private getDateFormat(): string {
+        return this.options.dateFormat + (this.options.time ? ' hh:mm' : '');
+    }
+
+    getPlaceholder(): string {
+        return this.options.showPlaceholder ? this.getDateFormat() : '';
     }
 }

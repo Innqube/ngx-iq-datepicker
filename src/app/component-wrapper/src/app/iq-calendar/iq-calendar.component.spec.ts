@@ -2,6 +2,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {IqCalendarComponent} from './iq-calendar.component';
 import {IqDatepickerEnglishTranslation} from '../iq-datepicker/iq-datepicker-english-translation';
+import {TextMaskModule} from 'angular2-text-mask';
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('IqCalendarComponent', () => {
     let component: IqCalendarComponent;
@@ -9,7 +11,11 @@ describe('IqCalendarComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [IqCalendarComponent]
+            declarations: [IqCalendarComponent],
+            imports: [
+                TextMaskModule,
+                ReactiveFormsModule
+            ]
         }).compileComponents();
     }));
 

@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         this.form = this.formBuilder.group({
-            date: new Date(1985, 10, 14)
+            date: null
         });
     }
 }

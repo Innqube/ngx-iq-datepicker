@@ -202,7 +202,7 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     private completeValuesAndHide(event: any) {
         const textInput = this.selectedDateInput.value;
 
-        if (textInput && this.options.time) {
+        if (textInput) {
             const year = textInput.substring(this.yearIndex, this.yearIndex + 4);
             const month = textInput.substring(this.monthIndex, this.monthIndex + 2);
             const day = textInput.substring(this.dayIndex, this.dayIndex + 2);

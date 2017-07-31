@@ -184,6 +184,21 @@ describe('IqDatepickerComponent', () => {
         expect(component.hideCalendar).toHaveBeenCalled();
     });
 
+    it('enter should set current date if not set', () => {
+        component.handleKeyDown({keyCode: 13});
+        expect(component.selectedDate.getFullYear()).toBe(new Date().getFullYear());
+        expect(component.selectedDate.getMonth()).toBe(new Date().getMonth());
+        expect(component.selectedDate.getDate()).toBe(new Date().getDate());
+    });
+
+    it('enter should not override with current date if date already set', () => {
+        component.writeValue('14/11/1985');
+        component.handleKeyDown({keyCode: 13});
+        expect(component.selectedDate.getFullYear()).not.toBe(new Date().getFullYear());
+        expect(component.selectedDate.getMonth()).not.toBe(new Date().getMonth());
+        expect(component.selectedDate.getDate()).not.toBe(new Date().getDate());
+    });
+
 });
 
 @Component({

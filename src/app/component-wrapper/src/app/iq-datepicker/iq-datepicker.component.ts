@@ -113,6 +113,8 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
                         let date = new Date(year, month - 1, day);
                         this.onDateSelected(date);
                     }
+                } else {
+                    this.onDateSelected(null);
                 }
             });
         this.yearIndex = this.options.dateFormat.indexOf('yyyy');
@@ -174,6 +176,11 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     @HostListener('keydown', ['$event'])
     handleKeyDown(event: any) {
         if (event.keyCode === KEY_CODE_ENTER || event.keyCode === KEY_CODE_TAB) {
+
+            if (event.keyCode === KEY_CODE_ENTER && !this.selectedDateInput.value) {
+                this.onDateSelected(new Date());
+            }
+
             this.hideCalendar();
         }
     }

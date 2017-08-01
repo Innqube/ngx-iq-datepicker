@@ -48,7 +48,8 @@ export class IqDatepickerOptions {
     calendarBtnIcon?: string; // default 'glyphicon glyphicon-calendar'
     horizontal?: boolean; // default false - Useful for horizontal-forms
     showPlaceholder?: boolean; // default true
-    dateFormat?: 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd' | 'yyyy/dd/mm'; // default 'dd/mm/yyyy'
+    dateFormat?: 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd' | 'yyyy/dd/mm'; // default 'dd/mm/yyyy',
+    time?: boolean; // default false - Allow to enter hours and minutes
 }
 ```
 

@@ -16,8 +16,7 @@ export class IqCalendarComponent implements OnInit {
     @Input() selectedDate: Date;
     @Output() dateSelected = new EventEmitter<Date>();
     weeks;
-    static timeMask = [/[0-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/];
-    mask = IqCalendarComponent.timeMask;
+    timeMask = [/[0-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/];
     timeInput = new FormControl();
 
     constructor() {

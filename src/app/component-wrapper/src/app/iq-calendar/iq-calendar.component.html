@@ -98,7 +98,7 @@
     <div class="row date-selector-row" *ngIf="options?.time">
         <div class="col-sm-4 col-sm-offset-4">
             <input class="form-control input-sm text-center"
-                   [textMask]="{mask: mask}"
+                   [textMask]="{mask: timeMask}"
                    placeholder="hh:mm"
                    [formControl]="timeInput">
         </div>

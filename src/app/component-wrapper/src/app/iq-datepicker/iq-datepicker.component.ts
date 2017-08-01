@@ -41,6 +41,7 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     selectedDateInput = new FormControl();
     calendarVisible = false;
     disabled = false;
+    timeMask = [/[0-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/];
 
     dateMask = [];
     yearMask = [/[1-3]/, /\d/, /\d/, /\d/];
@@ -251,7 +252,7 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
 
         if (this.options.time) {
             this.dateMask.push(' ');
-            this.dateMask.push(...IqCalendarComponent.timeMask);
+            this.dateMask.push(...this.timeMask);
         }
     }
 

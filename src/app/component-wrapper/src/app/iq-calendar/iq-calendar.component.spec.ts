@@ -129,4 +129,12 @@ describe('IqCalendarComponent', () => {
         input.dispatchEvent(event);
         expect(event.stopPropagation).toHaveBeenCalled();
     });
+
+    it('should emit value when time is selected', () => {
+        spyOn(component.dateSelected, 'emit');
+        component.selectedDate = new Date();
+        component.timeInput.patchValue('10:33');
+        expect(component.dateSelected.emit).toHaveBeenCalled();
+    });
+
 });

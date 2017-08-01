@@ -17,7 +17,8 @@ describe('IqDatepickerComponent', () => {
                 IqDatepickerComponent,
                 IqCalendarComponent,
                 TestHostComponent,
-                TestHostComponentDisabled
+                TestHostComponentDisabled,
+                TestHostComponentWithTime
             ],
             imports: [
                 ReactiveFormsModule,
@@ -136,6 +137,33 @@ describe('IqDatepickerComponent', () => {
         expect(component.selectedDate.getDate()).toBe(14);
     }));
 
+    it('should not set selected date when time is not yet entered', fakeAsync(() => {
+        component.options.time = true;
+        fixture.detectChanges();
+
+        const input = fixture.nativeElement.querySelector('input');
+        input.value = '14/11/1985';
+        input.dispatchEvent(new Event('input'));
+        tick(200);
+        expect(component.selectedDate).toBeFalsy();
+    }));
+
+    it('should set selected date when time is entered', fakeAsync(() => {
+        let parent = TestBed.createComponent(TestHostComponentWithTime);
+        parent.detectChanges();
+        const component = parent.componentInstance;
+
+        const input = parent.nativeElement.querySelector('input');
+        input.value = '14/11/1985 14:55';
+        input.dispatchEvent(new Event('input'));
+        tick(200);
+        expect(component.datePicker.selectedDate.getFullYear()).toBe(1985);
+        expect(component.datePicker.selectedDate.getMonth()).toBe(10);
+        expect(component.datePicker.selectedDate.getDate()).toBe(14);
+        expect(component.datePicker.selectedDate.getHours()).toBe(14);
+        expect(component.datePicker.selectedDate.getMinutes()).toBe(55);
+    }));
+
     it('should update calendar year after entering as text', fakeAsync(() => {
         component.calendarVisible = true;
         fixture.detectChanges();
@@ -154,6 +182,36 @@ describe('IqDatepickerComponent', () => {
         input.dispatchEvent(new Event('input'));
         tick(200);
         expect(component.calendarComponent.date.getMonth()).toBe(10);
+    }));
+
+    it('should update calendar hours after entering it as text', fakeAsync(() => {
+        let parent = TestBed.createComponent(TestHostComponentWithTime);
+        parent.detectChanges();
+        const component = parent.componentInstance;
+        component.datePicker.calendarVisible = true;
+        parent.detectChanges();
+        const input = parent.nativeElement.querySelector('input');
+
+        input.value = '14/11/1985 14:55';
+        input.dispatchEvent(new Event('input'));
+        tick(200);
+
+        expect(component.datePicker.calendarComponent.date.getHours()).toBe(14);
+    }));
+
+    it('should update calendar minutes after entering it as text', fakeAsync(() => {
+        let parent = TestBed.createComponent(TestHostComponentWithTime);
+        parent.detectChanges();
+        const component = parent.componentInstance;
+        component.datePicker.calendarVisible = true;
+        parent.detectChanges();
+        const input = parent.nativeElement.querySelector('input');
+
+        input.value = '14/11/1985 14:55';
+        input.dispatchEvent(new Event('input'));
+        tick(200);
+
+        expect(component.datePicker.calendarComponent.date.getMinutes()).toBe(55);
     }));
 
     it('should accept an iso date', () => {
@@ -247,6 +305,30 @@ class TestHostComponentDisabled implements OnInit {
                 value: new Date(2017, 5, 22),
                 disabled: true
             }]
+        });
+    }
+
+}
+
+@Component({
+    template: `
+        <form [formGroup]="form">
+            <iq-datepicker formControlName="date" [options]="{time: true}"></iq-datepicker>
+        </form>
+    `
+})
+class TestHostComponentWithTime implements OnInit {
+
+    @ViewChild(IqDatepickerComponent)
+    datePicker: IqDatepickerComponent;
+    form: FormGroup;
+
+    constructor(private formBuilder: FormBuilder) {
+    }
+
+    ngOnInit(): void {
+        this.form = this.formBuilder.group({
+            date: null
         });
     }
 

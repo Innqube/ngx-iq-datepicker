@@ -101,8 +101,12 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
                     const year = newValue.substring(this.yearIndex, this.yearIndex + 4);
                     const month = newValue.substring(this.monthIndex, this.monthIndex + 2);
                     const day = newValue.substring(this.dayIndex, this.dayIndex + 2);
-                    const hours = Number(newValue.substring(11, 13));
-                    const minutes = Number(newValue.substring(14, 16));
+
+                    let hoursStr = newValue.substring(11, 13);
+                    let minutesStr = newValue.substring(14, 16);
+
+                    const hours = hoursStr.length > 0 && !isNaN(hoursStr) ? Number(hoursStr) : null;
+                    const minutes = minutesStr.length > 0 && !isNaN(minutesStr) ? Number(minutesStr) : null;
 
                     if (this.calendarComponent) {
                         if (!isNaN(month)) {
@@ -122,8 +126,8 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
                         if (!this.options.time) {
                             this.onDateSelected(new Date(year, month - 1, day));
                         } else {
-                            if (!isNaN(hours) && !isNaN(minutes)) {
-                                this.onDateSelected(new Date(year, month, day, hours, minutes));
+                            if (hours && minutes) {
+                                this.onDateSelected(new Date(year, month - 1, day, hours, minutes));
                             }
                         }
                     }
@@ -148,7 +152,6 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
         this.selectedDate = date ? new Date(date.getTime()) : null;
         this.propagateChange(this.selectedDate);
         this.dateSelected.emit(this.selectedDate);
-        this.hideCalendar();
     }
 
     private dateToString(date: Date): string {

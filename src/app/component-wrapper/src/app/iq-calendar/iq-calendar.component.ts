@@ -26,17 +26,7 @@ export class IqCalendarComponent implements OnInit {
     ngOnInit() {
         this.date = this.selectedDate ? new Date(this.selectedDate.getTime()) : new Date();
         this.updateViewDays();
-        this.timeInput
-            .valueChanges
-            .subscribe(newValue => {
-                const values = newValue.split(':');
-
-                if (!isNaN(values[0]) && !isNaN(values[1])) {
-                    this.selectedDate.setHours(values[0]);
-                    this.selectedDate.setMinutes(values[1]);
-                    this.dateSelected.emit(this.selectedDate);
-                }
-            });
+        this.emitDateOnTimeSelected();
 
         setTimeout(() => {
             if (this.selectedDate) {
@@ -45,6 +35,20 @@ export class IqCalendarComponent implements OnInit {
                 this.timeInput.setValue(hours + ':' + minutes, { emitEvent: false });
             }
         }, 1);
+    }
+
+    private emitDateOnTimeSelected() {
+        this.timeInput
+            .valueChanges
+            .subscribe(newValue => {
+                const values = newValue.split(':');
+
+                if (!isNaN(values[0]) && !isNaN(values[1]) && this.selectedDate) {
+                    this.selectedDate.setHours(values[0]);
+                    this.selectedDate.setMinutes(values[1]);
+                    this.dateSelected.emit(this.selectedDate);
+                }
+            });
     }
 
     prevMonth() {

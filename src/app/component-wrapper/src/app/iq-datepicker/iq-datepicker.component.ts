@@ -148,7 +148,7 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     }
 
     onDateSelected(date: Date) {
-        this.selectedDateInput.patchValue(this.dateToString(date));
+        this.selectedDateInput.patchValue(this.dateToString(date), {emitEvent: false});
         this.selectedDate = date ? new Date(date.getTime()) : null;
         this.propagateChange(this.selectedDate);
         this.dateSelected.emit(this.selectedDate);

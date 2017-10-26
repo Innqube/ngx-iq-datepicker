@@ -51,6 +51,7 @@ export class IqDatepickerOptions {
     dateFormat?: 'dd/MM/yyyy' | 'MM/dd/yyyy' | 'yyyy/MM/dd' | 'yyyy/dd/MM'; // default 'dd/MM/yyyy',
     time?: boolean; // default false - Allow to enter hours and minutes,
     minimalMode?: boolean; // hides the buttons. The remove button may become visible on hover. Useful for condensed layouts.
+    inputCss?: string; // extra classes to add to the input component
 }
 ```
 

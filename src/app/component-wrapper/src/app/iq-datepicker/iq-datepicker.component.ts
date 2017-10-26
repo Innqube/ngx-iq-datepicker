@@ -51,9 +51,6 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     monthIndex;
     dayIndex;
 
-    propagateChange = (_: any) => {
-    };
-
     defaults: IqDatepickerOptions = {
         size: 'md',
         calendarBtnClass: 'btn btn-default',
@@ -65,7 +62,11 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
         dateFormat: 'dd/MM/yyyy',
         showPlaceholder: true,
         time: false,
-        minimalMode: false
+        minimalMode: false,
+        inputCss: ''
+    };
+
+    propagateChange = (_: any) => {
     };
 
     constructor(private elementRef: ElementRef) {
@@ -104,8 +105,8 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
                     const month = newValue.substring(this.monthIndex, this.monthIndex + 2);
                     const day = newValue.substring(this.dayIndex, this.dayIndex + 2);
 
-                    let hoursStr = newValue.substring(11, 13);
-                    let minutesStr = newValue.substring(14, 16);
+                    const hoursStr = newValue.substring(11, 13);
+                    const minutesStr = newValue.substring(14, 16);
 
                     const hours = hoursStr.length > 0 && !isNaN(hoursStr) ? Number(hoursStr) : null;
                     const minutes = minutesStr.length > 0 && !isNaN(minutesStr) ? Number(minutesStr) : null;
@@ -159,10 +160,10 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
     private dateToString(date: Date): string {
         if (date) {
             let dateStr: string = this.getDateFormat();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-            let hours = date.getHours();
-            let minutes = date.getMinutes();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
 
             dateStr = dateStr
                 .replace(/dd/g, day < 10 ? '0' + day : String(day))

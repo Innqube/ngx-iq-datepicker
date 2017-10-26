@@ -1,5 +1,5 @@
 <div class="datepicker" [class.input-group]="!options.minimalMode">
-    <input class="form-control"
+    <input [class]="'form-control' + ' ' + options.inputCss"
            [class.input-lg]="options.size === 'lg'"
            [class.input-sm]="options.size === 'sm'"
            [formControl]="selectedDateInput"

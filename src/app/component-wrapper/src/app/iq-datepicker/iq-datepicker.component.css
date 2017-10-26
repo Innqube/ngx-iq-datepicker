@@ -1,0 +1,25 @@
+.datepicker {
+    position: relative;
+}
+
+.datepicker .minimalMode {
+    display: none;
+}
+
+.datepicker:hover .minimalMode {
+    display: block;
+}
+
+.datepicker .minimalMode button {
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 2px;
+    right: 0;
+}
+
+.datepicker .minimalMode button:focus,
+.datepicker .minimalMode button:active {
+    box-shadow: none;
+    outline: none;
+}

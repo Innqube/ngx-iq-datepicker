@@ -49,7 +49,8 @@ export class IqDatepickerOptions {
     horizontal?: boolean; // default false - Useful for horizontal-forms
     showPlaceholder?: boolean; // default true
     dateFormat?: 'dd/MM/yyyy' | 'MM/dd/yyyy' | 'yyyy/MM/dd' | 'yyyy/dd/MM'; // default 'dd/MM/yyyy',
-    time?: boolean; // default false - Allow to enter hours and minutes
+    time?: boolean; // default false - Allow to enter hours and minutes,
+    minimalMode?: boolean; // hides the buttons. The remove button may become visible on hover. Useful for condensed layouts.
 }
 ```
 

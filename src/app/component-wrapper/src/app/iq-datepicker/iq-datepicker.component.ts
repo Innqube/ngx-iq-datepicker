@@ -64,7 +64,8 @@ export class IqDatepickerComponent implements OnInit, ControlValueAccessor {
         horizontal: false,
         dateFormat: 'dd/MM/yyyy',
         showPlaceholder: true,
-        time: false
+        time: false,
+        minimalMode: false
     };
 
     constructor(private elementRef: ElementRef) {

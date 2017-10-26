@@ -1,4 +1,4 @@
-<div class="input-group">
+<div class="datepicker" [class.input-group]="!options.minimalMode">
     <input class="form-control"
            [class.input-lg]="options.size === 'lg'"
            [class.input-sm]="options.size === 'sm'"
@@ -7,7 +7,19 @@
            [textMask]="{mask: getMask()}"
            [placeholder]="getPlaceholder()"
            type="text">
-    <span class="input-group-btn">
+    <span class="minimalMode" *ngIf="options.minimalMode">
+        <button tabindex="-1"
+                [class]="options.removeBtnClass"
+                [class.btn-lg]="options.size === 'lg'"
+                [class.btn-sm]="options.size === 'sm'"
+                (click)="clear()"
+                *ngIf="options.removeBtnVisible"
+                [disabled]="disabled"
+                type="button">
+            <i class="glyphicon  glyphicon-remove"></i>
+        </button>
+    </span>
+    <span class="input-group-btn" *ngIf="!options.minimalMode">
         <button tabindex="-1"
                 [class]="options.removeBtnClass"
                 [class.btn-lg]="options.size === 'lg'"

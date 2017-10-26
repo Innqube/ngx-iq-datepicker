@@ -12,4 +12,5 @@ export class IqDatepickerOptions {
     showPlaceholder?: boolean;
     dateFormat?: 'dd/MM/yyyy' | 'MM/dd/yyyy' | 'yyyy/MM/dd' | 'yyyy/dd/MM';
     time?: boolean;
+    minimalMode?: boolean;
 }
